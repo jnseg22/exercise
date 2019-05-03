@@ -77,29 +77,16 @@
 	</select>
 
 	<insert id="insert">
-		insert into tbl_board (title,content,writer)
-		values
-		(#{title}, #{content}, #{writer})
+		insert into tbl_board (bno, title,content,writer)
+		values (#{bno}, #{title}, #{content}, #{writer})
 	</insert>
 	
-	<!-- <insert id="insertSelectKey"
-		parameterType="org.zerock.controller.BoardController"
-		useGeneratedKeys="true">
-
-		<selectKey keyProperty="bno" order="AFTER" resultType="long">
-			select bno from tbl_board
-			insert into tbl_board ( title, content,
-			writer)
-			values ( #{title}, #{content}, #{writer})
-		</selectKey>-->
-
-		<insert id="insertSelectKey" useGeneratedKeys="true"
-			keyProperty="bno">
+	<insert id="insertSelectKey" useGeneratedKeys="true"
+		keyProperty="bno">		
 			
-			insert into tbl_board ( title, content,
-			writer)
-			values ( #{title}, #{content}, #{writer})
-		</insert>
+		insert into tbl_board ( title, content, writer)
+		values (#{title}, #{content}, #{writer})
+	</insert>
 
 	
 
@@ -115,12 +102,10 @@
 	<update id="update">
 		update tbl_board
 		set title = #{title}
-		, content =
-		#{content}
+		, content = #{content}
 		, writer = #{writer}
 		, updatedate = current_timestamp
-		where
-		bno = #{bno}
+		where bno = #{bno}
 	</update>
 	
 	<update id="updateReplyCnt">
