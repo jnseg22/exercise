@@ -65,7 +65,22 @@
 					<input type="file" name='uploadFile' multiple>
 				</div>
 				
-				<style>
+				<div class="uploadResult">
+					<ul>
+					
+					</ul>
+				</div>
+				
+			</div>
+			<!-- /.panel body-->
+		</div>
+		<!-- /.panel -->
+	</div>
+	<!-- /.col-lg-6 -->
+</div>
+<!-- /.row -->
+
+<style>
 	.uploadResult {
 			
 		width:100%;
@@ -118,22 +133,8 @@
 		width:600px;
 	}
 		
-	</style>
-				
-				<div class="uploadResult">
-					<ul>
-					
-					</ul>
-				</div>
-				
-			</div>
-			<!-- /.panel body-->
-		</div>
-		<!-- /.panel -->
-	</div>
-	<!-- /.col-lg-6 -->
-</div>
-<!-- /.row -->
+</style>
+
 <script type="text/javascript">	
 	$(document).ready(function() {
 		

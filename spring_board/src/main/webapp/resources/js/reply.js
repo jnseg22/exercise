@@ -115,9 +115,7 @@ var replyService = (function(){
 			var hh = dateObj.getHours();
 			var mi = dateObj.getMinutes();
 			var ss = dateObj.getSeconds();
-			
-			//console.log(hh);
-			//댓글 시간이 9시간 느림
+
 			return [(hh > 9 ? '' : '0') + hh, ':', (mi > 9 ? '' : '0') + mi, ':',
 				(ss > 9 ? '' : '0') + ss].join('');
 			
@@ -129,10 +127,7 @@ var replyService = (function(){
 			return [yy, '/', (mm > 9 ? '' : '0') + mm, '/',
 				(dd > 9 ? '' : '0') + dd].join('');
 		}
-	};
-	
-	
-	
+	};	
 	
 	return {
 		add : add,
