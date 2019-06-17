@@ -9,7 +9,7 @@
 		class="com.home.security.CustomAccessDeniedHandler"></bean>
 		
 	<!-- <bean id="customLoginSuccess"
-		class="org.zerock.security.CustomLoginSuccessHandler"></bean>-->
+		class="com.home.security.CustomLoginSuccessHandler"></bean>-->
 		
 	<bean id="customUserDetailsService"
 		class="com.home.security.CustomUserDetailsService"></bean>
