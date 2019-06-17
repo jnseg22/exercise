@@ -37,6 +37,42 @@ select * from tbl_board where bno > 0
 	where bno = #{bno}
 </update>
 
+<sql id="criteria">
+	 <!-- type:criteria의 변수 -->	
+	 
+	<foreach item='type' collection='typeArr'>
+	 	
+	 <if test="type != null" > 
+	   <if test="type == 'T'.toString()">
+	     and title like CONCAT('%', #{keyword}, '%')
+	   </if>
+	   <if test="type == 'C'.toString()">
+	     and content like CONCAT('%', #{keyword}, '%')
+	   </if>
+	   <if test="type == 'W'.toString()">
+	     and writer like CONCAT('%', #{keyword}, '%')
+	   </if>     
+	    <if test="type == 'TC'.toString()">
+	     and ( title like CONCAT('%', #{keyword}, '%') 
+	     OR content like CONCAT('%', #{keyword}, '%'))
+	   </if>        
+	   <if test="type == 'TW'.toString()">
+	     and ( title like CONCAT('%', #{keyword}, '%') 
+	     OR writer like CONCAT('%', #{keyword}, '%'))
+	   </if>        
+	   <if test="type == 'TWC'.toString()">
+	     and (   title like CONCAT('%', #{keyword}, '%') 
+	           OR 
+	             writer like CONCAT('%', #{keyword}, '%') 
+	           OR 
+	             content like CONCAT('%', #{keyword}, '%'))
+	   </if>              
+	 </if>
+	  
+	</foreach>
+	 
+</sql>
+
 <select id="getListWithPaging" resultType="com.home.domain.BoardVO">
 		
 	<![CDATA[
@@ -47,7 +83,7 @@ select * from tbl_board where bno > 0
 	where bno >= 0
 	]]>
 		
-	<!-- include refid="criteria"></include>-->
+	<include refid="criteria"></include>
 		
 	<![CDATA[
 	order by bno desc
@@ -57,7 +93,11 @@ select * from tbl_board where bno > 0
 </select>
 
 <select id="getTotalCount" resultType="int">
+	
 	select count(*) from tbl_board where bno > 0
+			
+	<include refid="criteria"></include>
+	
 </select>
 
 </mapper>

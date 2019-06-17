@@ -43,13 +43,18 @@
                     
                   </div>
               	             	  
-              	  <button data-oper="modify" class="btn btn-outline-primary">Modify</button>
-              	  <button data-oper="list" class="btn btn-outline-primary">List</button>
+              	  <button data-oper="modify" class="btn btn-primary">Modify</button>
+              	  <button data-oper="list" class="btn btn-info">List</button>
+              	  <button id='homeBtn' type="button" class="btn btn-warning" style="float: right;">Go Home</button>
               	  
               	  <form id='operForm' action="/board/modify" method="get">
+              	  
+              	  	<input type='hidden' name='type' value='<c:out value="${cri.type}" />'/>
+					<input type='hidden' name='keyword' value='<c:out value="${cri.keyword}" />'/>
+              	  	<input type='hidden' name='pageNum' value='<c:out value="${cri.pageNum }"/>'>
+              	  	<input type='hidden' name='amount' value='<c:out value="${cri.amount }"/>'>
               	  	<input type='hidden' id='bno' name='bno' value='<c:out value="${board.bno }"/>'>
-              	  	<input type='hidden' id='pageNum' name='pageNum' value='<c:out value="${cri.pageNum }"/>'>
-              	  	<input type='hidden' id='amount' name='amount' value='<c:out value="${cri.amount }"/>'>
+              	  	
               	  </form>
               </div>	<!--  /panel-body -->  
               	 
@@ -78,7 +83,11 @@ $(document).ready(function() {
 		
 	});
 	
-	
+	$("#homeBtn").on("click", function(){
+		
+		self.location ="/board/list";
+			
+	});
 });
 </script>
 

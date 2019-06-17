@@ -5,8 +5,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@include file="../includes/header.jsp" %>
 
-      <!-- Tables
-      ================================================== -->
+
+<!-- Tables ================================================== -->
 <div class="bs-docs-section">
 
    <div class="row">
@@ -18,7 +18,8 @@
        <div class="row">
      <div class="col-lg-12">
       <div class="table-active" style="font-size:1.5em">Board List Page
-       <button id='regBtn' type="button" class="btn btn-secondary" style="float: right;">Register New Board</button></div>
+       <button id='regBtn' type="button" class="btn btn-secondary" style="float: right;">Register New Board</button>
+       <button id='homeBtn' type="button" class="btn btn-warning" style="float: right;">Go Home</button></div>
        <div class="bs-component">
        <table class="table table-hover">
                         
@@ -46,12 +47,46 @@
           </table>
              
          <form id="actionForm" role="listObj" action="/board/list" method="get">
-
+         
+			<input type='hidden' name='type' value='<c:out value="${pageMaker.cri.type}" />'/>
+			<input type='hidden' name='keyword' value='<c:out value="${pageMaker.cri.keyword}" />'/>	
 			<input type='hidden' name="pageNum" value="${pageMaker.cri.pageNum }">
 			<input type='hidden' name="amount" value="${pageMaker.cri.amount }">
 
 		</form>
                
+      <!-- 검색 처리 -->
+            
+       <div class="navbar-collapse collapse show" id="navbarColor01" style="">
+        <form class="form-inline my-2 my-lg-0" id="searchForm" action="/board/list" method="get">
+        	<select class="form-control mr-sm-2" name='type'>
+				<option value=""
+				<c:out value="${pageMaker.cri.type == null?'selected':''}"/>>--</option>
+					<option value="T"
+				<c:out value="${pageMaker.cri.type eq 'T'?'selected':''}"/>>제목</option>
+					<option value="C"
+				<c:out value="${pageMaker.cri.type eq 'C'?'selected':''}"/>>내용</option>
+					<option value="W"
+				<c:out value="${pageMaker.cri.type eq 'W'?'selected':''}"/>>작성자</option>
+					<option value="TC"
+				<c:out value="${pageMaker.cri.type eq 'TC'?'selected':''}"/>>제목 or 내용</option>
+					<option value="TW"
+				<c:out value="${pageMaker.cri.type eq 'TW'?'selected':''}"/>>제목 or 작성자</option>
+					<option value="TWC"
+				<c:out value="${pageMaker.cri.type eq 'TWC'?'selected':''}"/>>제목 or 내용 or 작성자</option>				
+			</select>
+			
+      		<input class="form-control mr-sm-2" type="text" placeholder="Search" name='keyword'
+      		value='<c:out value="${pageMaker.cri.keyword}"/>' />
+      		<input type='hidden' name='pageNum' value='<c:out value="${pageMaker.cri.pageNum}" />'/>
+			<input type='hidden' name='amount' value='<c:out value="${pageMaker.cri.amount}" />'/>
+      		<button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+      		     		
+   	 	</form>
+       </div>
+             
+      
+      
         <!--  페이지 번호 출력 -->
                
           <div>
@@ -78,6 +113,8 @@
     
   			</ul>
 		</div><!-- /pagination -->
+		
+		
        </div><!-- /example -->
      </div>
    </div>
@@ -94,11 +131,11 @@
               <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             </div>
             <div class="modal-body">
-              <pre contenteditable>처리가 완료되었습니다.</pre>
+              <p>처리가 완료되었습니다.</p>
             </div>
             <div class="modal-footer">
-            	<button type="button" class="btn-btn-info" data-dismiss="modal">Close</button>
-            	<button type="button" class="btn-btn-default">Save changes</button>
+            	<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            	<button type="button" class="btn btn-secondary">Save changes</button>
             </div>
           </div>
         </div>
@@ -152,6 +189,33 @@
 			actionForm.append("<input type='hidden' name='bno' value='" +$(this).attr("href")+ "'>");
 			actionForm.attr("action", "/board/get");
 			actionForm.submit();
+		});
+		
+		//검색 버튼 이벤트 처리
+		var searchForm = $("#searchForm");
+		
+		$("#searchForm button").on("click", function(e){
+			
+			if(!searchForm.find("option:selected").val()){
+				alert("검색종류를 선택하세요");
+				return false;
+			}
+			
+			if(!searchForm.find("input[name='keyword']").val()){
+				alert("키워드를 입력하세요");
+				return false;
+			}
+			
+			searchForm.find("input[name='pageNum']").val("1");//검색시 1페이지로 이동
+			e.preventDefault();
+			
+			searchForm.submit();
+		});
+		
+		$("#homeBtn").on("click", function(){
+			
+			self.location ="/board/list";
+				
 		});
 	});
 </script>

@@ -22,6 +22,8 @@
               
               <form role="form" action ="/board/modify" method="post">
               
+              	<input type='hidden' name='type' value='<c:out value="${cri.type}" />'/>
+				<input type='hidden' name='keyword' value='<c:out value="${cri.keyword}" />'/>
               	<input type='hidden' id='pageNum' name='pageNum' value='<c:out value="${cri.pageNum }"/>'>
               	<input type='hidden' id='amount' name='amount' value='<c:out value="${cri.amount }"/>'>
               	  	
@@ -61,9 +63,11 @@
                      value="${board.updateDate}"/>' readonly="readonly"> 
                   </div>
               	             	  
-              	  <button type="submit" data-oper='modify' class="btn btn-outline-primary">Modify</button>
-              	  <button type="submit" data-oper='remove' class="btn btn-outline-danger">Remove</button>
-              	  <button type="submit" data-oper='list' class="btn btn-outline-info">List</button>
+              	  <button type="submit" data-oper='modify' class="btn btn-primary">Modify</button>
+              	  <button type="submit" data-oper='remove' class="btn btn-danger">Remove</button>
+              	  <button type="submit" data-oper='list' class="btn btn-info">List</button>
+              	  <button id='homeBtn' type="button" class="btn btn-warning" style="float: right;">Go Home</button>
+              	  
               </form>
               </div>	<!--  /panel-body -->  
               	 
@@ -91,18 +95,29 @@ $(document).ready(function() {
 			formObj.attr("action", "/board/remove");
 		}else if(operation === 'list'){
 			formObj.attr("action", "/board/list").attr("method", "get");
+			
 			var pageNumTag = $("input[name='pageNum']").clone();
 			var amountTag = $("input[name='amount']").clone();
+			var keywordTag = $("input[name='keyword']").clone();
+			var typeTag = $("input[name='type']").clone();
 			
 			formObj.empty();
+			
 			formObj.append(pageNumTag);
 			formObj.append(amountTag);
+			formObj.append(keywordTag);
+			formObj.append(typeTag);
 		}
 		
 		formObj.submit();
 		
 	});
 	
+	$("#homeBtn").on("click", function(){
+		
+		self.location ="/board/list";
+			
+	});
 });
 </script>
 

@@ -37,7 +37,7 @@
               	             	  
               	  <button type="submit" class="btn btn-primary">Submit Button</button>
               	  <button type="reset" class="btn btn-warning">Reset Button</button>
-              	  <button id='listBtn' type="button" class="btn btn-primary" style="float: right;">Go List</button>
+              	  <button id='homeBtn' type="button" class="btn btn-warning" style="float: right;">Go Home</button>
               	</form>  
              </table>
             </div>     
@@ -49,7 +49,7 @@
 <script type="text/javascript">
 $(document).ready(function() {  
 	
-	$("#listBtn").on("click", function(){
+	$("#homeBtn").on("click", function(){
 			
 		self.location ="/board/list";
 			
