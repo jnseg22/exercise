@@ -9,7 +9,7 @@
 		values (#{bno}, #{reply}, #{replyer})
 	</insert>
 	
-	<select id="read">
+	<select id="read" resultType="com.home.domain.ReplyVO">
 		select * from tbl_reply where rno = #{rno}
 	</select>
 	
@@ -25,9 +25,16 @@
 	</update>
 	
 	<select id="getListWithPaging" resultType="com.home.domain.ReplyVO">
-		select rno, bno, reply, replyer, replyDate, updateDate
+		select rno, bno, reply, replyer, replydate, updatedate
 		from tbl_reply
 		where bno = #{bno}
 		order by rno desc
+		limit #{cri.pageStart}, #{cri.amount}
+	</select>
+	
+	<select id="getCountByBno" resultType="int">
+		<![CDATA[
+			select count(rno) from tbl_reply where bno = #{bno}
+		]]>
 	</select>
 </mapper>

@@ -9,6 +9,7 @@
           <div class="col-lg-12">
             <div class="page-header">
               <h1 id="tables">Board register</h1>
+              <hr>
             </div>
           
           <div class="row">
