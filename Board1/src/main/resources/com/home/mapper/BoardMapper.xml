@@ -77,7 +77,7 @@ select * from tbl_board where bno > 0
 		
 	<![CDATA[
 	select
-		bno, title, content, writer, regdate, updatedate
+		bno, title, content, writer, regdate, updatedate, replyCnt
 	from
 		tbl_board
 	where bno >= 0
@@ -99,5 +99,11 @@ select * from tbl_board where bno > 0
 	<include refid="criteria"></include>
 	
 </select>
+
+<update id="updateReplyCnt">
+	
+	update tbl_board set replyCnt = replyCnt + #{amount} where bno = #{bno}
+	
+</update>
 
 </mapper>
