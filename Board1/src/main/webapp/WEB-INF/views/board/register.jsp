@@ -3,6 +3,7 @@
     
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec"%>
 <%@include file="../includes/header.jsp" %>
 
 <div class="row">
@@ -19,6 +20,10 @@
               <h4 class="table-active">Board register</h4>
                        
               	<form role="form" action ="/board/register" method="post">
+              	
+              	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                	<div class="form-group">
+              	
               		<div class="form-group">
                     <label>Title</label>
                     <input class="form-control" aria-describedby="titleHelp" placeholder="Enter title" name="title">
@@ -33,7 +38,8 @@
                   
                   <div class="form-group">
                     <label>Writer</label>
-                    <input class="form-control" name="writer">
+                    <input class="form-control" name="writer" 
+                    value='<sec:authentication property="principal.username"/>' readonly="readonly">
                   </div>
               	             	  
               	  <button type="submit" class="btn btn-primary">Submit Button</button>
@@ -218,6 +224,9 @@ $(document).ready(function() {
 			$.ajax({
 				url: '/deleteFile',
 				data: {fileName: targetFile, type:type},
+				beforeSend : function(xhr){
+					xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
+				},
 				dataType: 'text',
 				type: 'POST',
 				success: function(result){
@@ -246,6 +255,11 @@ $(document).ready(function() {
 			return true;
 		}
 		
+		//Ajax spring security 처리
+		
+		var csrfHeaderName = "${_csrf.headerName}";
+		var csrfTokenValue = "${_csrf.token}";
+		
 		$("input[type='file']").change(function(e){
 			
 		var formData = new FormData();
@@ -269,6 +283,9 @@ $(document).ready(function() {
 			url : '/uploadAjaxAction',
 			processData : false,
 			contentType : false,
+			beforeSend : function(xhr){
+				xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
+			},
 			data : formData,
 			type : 'POST',
 			datatype : 'json',

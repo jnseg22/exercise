@@ -3,6 +3,7 @@
     
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec"%>
 <%@include file="../includes/header.jsp" %>
 
 <div class="row">
@@ -22,7 +23,8 @@
               <div class="panel-body">	
               
               <form role="form" action ="/board/modify" method="post">
-              
+              	
+              	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
               	<input type='hidden' name='type' value='<c:out value="${cri.type}" />'/>
 				<input type='hidden' name='keyword' value='<c:out value="${cri.keyword}" />'/>
               	<input type='hidden' id='pageNum' name='pageNum' value='<c:out value="${cri.pageNum }"/>'>
@@ -63,9 +65,21 @@
                     <input class="form-control" name="updateDate" value='<fmt:formatDate pattern = "yyyy/MM/dd"
                      value="${board.updateDate}"/>' readonly="readonly"> 
                   </div>
-              	             	  
-              	  <button type="submit" data-oper='modify' class="btn btn-primary">Modify</button>
-              	  <button type="submit" data-oper='remove' class="btn btn-danger">Remove</button>
+              	  
+              	  <!-- 현재 로그인한 사용자가 게시글의 작성자인 경우에만 수정/삭제 가능하게 한다. -->    	  
+              	  <sec:authentication property="principal" var="pinfo" />
+                	<sec:authorize access="isAuthenticated()">
+                	<c:if test="${pinfo.username eq board.writer}">
+                	
+                	<button type="submit" data-oper="modify" class="btn btn-secondary">
+                	Modify</button>
+                	<button type="submit" data-oper="remove" class="btn btn-danger">
+                	Remove</button>
+                	<button type="submit" data-oper="list" class="btn btn-info">
+                	List</button>
+                	
+                	</c:if>
+				</sec:authorize>
               	  <button type="submit" data-oper='list' class="btn btn-info">List</button>
               	  <button id='homeBtn' type="button" class="btn btn-warning" style="float: right;">Go Home</button>
               	  
@@ -302,6 +316,10 @@ $(document).ready(function() {
 		return true;
 	}
 	
+	//Ajax spring security 처리
+	
+	var csrfHeaderName = "${_csrf.headerName}";
+	var csrfTokenValue = "${_csrf.token}";
 	
 	$("input[type='file']").change(function(e){
 	
@@ -326,6 +344,9 @@ $(document).ready(function() {
 		url : '/uploadAjaxAction',
 		processData : false,
 		contentType : false,
+		beforeSend : function(xhr){
+			xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
+		},
 		data : formData,
 		type : 'POST',
 		datatype : 'json',

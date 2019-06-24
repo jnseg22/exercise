@@ -10,7 +10,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Bootswatch: Minty</title>
+    <title>Minty Board</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <link rel="stylesheet" href="/resources/docs/4/minty/bootstrap.css" media="screen">
@@ -89,8 +89,18 @@
           </ul>
 
           <ul class="nav navbar-nav ml-auto">
-            <li class="nav-item">
-              <a class="nav-link" href="https://wrapbootstrap.com/?ref=bsw" target="_blank">WrapBootstrap</a>
+            <li class="nav-item dropdown">
+            	<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="download">My Page <span class="caret"></span></a>
+              	<div class="dropdown-menu">
+              	<sec:authorize access="isAuthenticated()">
+              		<a class="dropdown-item" href="/customLogout">Logout</a>
+              	</sec:authorize>
+              	
+              	<sec:authorize access="isAnonymous()">
+              		<a class="dropdown-item" href="/customLogin">Login</a>
+              	</sec:authorize>
+              <!-- <a class="nav-link" href="https://wrapbootstrap.com/?ref=bsw" target="_blank">WrapBootstrap</a>-->
+              </div>
             </li>
           </ul>
 
